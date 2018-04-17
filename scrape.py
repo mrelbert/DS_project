@@ -59,10 +59,10 @@ while pages_remaining:
             # WEIGHT
             weight = str(individual_details[7].text)
             if weight.strip() == "--":
-                tempDataSet.append(randint(28, 50))
+                tempDataSet.append(randint(120, 200))
             else:
                 weight_substring = weight[:3]
-                tempDataSet.append(int(weight_substring))
+                tempDataSet.append(float(weight_substring))
 
             # GENDER
             gender = str(individual_details[12].text)
@@ -91,10 +91,10 @@ while pages_remaining:
             # WEIGHT
             weight = str(individual_details[7].text)
             if weight.strip() == "--":
-                tempDataSet.append(randint(28, 50))
+                tempDataSet.append(randint(120, 200))
             else:
                 weight_substring = weight[:3]
-                tempDataSet.append(int(weight_substring))
+                tempDataSet.append(float(weight_substring))
 
             # GENDER
             gender = str(individual_details[12].text)
@@ -112,27 +112,35 @@ while pages_remaining:
         index = index + 1
         counter = counter + 1
 
+        if page_number == 501:
+            pages_remaining = False
+
     try:
-        print(features)
-        print("FEATURES SET LENGTH: " + str(len(features)))
-        print(labels)
-        print("LABELS SET LENGTH: " + str(len(labels)))
+        # print(features)
+        print("DATA SIZE: " + str(len(features)))
+        # # print(labels)
+        # print("LABELS SET LENGTH: " + str(len(labels)))
 
         page_number = page_number + 1
         next_link = browser.find_element_by_xpath('//*[@title="Go to page {0}"]'.format(str(page_number)))
         next_link.click()
         index = 0
-        time.sleep(30)
+
+        if page_number % 5 == 0:
+            print("Sleeping for 30 seconds...")
+            time.sleep(30)
 
     except NoSuchElementException:
         rows_remaining = False
 
 thefile = open('data.txt', 'w')
 
-thefile.write(str(len(features)) + "FEATURES")
+thefile.write(str(len(features)) + " FEATURES")
 for item in features:
   thefile.write("%s\n" % item)
 
-thefile.write(str(len(labels)) + "LABELS")
+print("\n")
+
+thefile.write(str(len(labels)) + " LABELS")
 for item in labels:
   thefile.write("%s\n" % item)
