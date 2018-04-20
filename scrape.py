@@ -5,6 +5,7 @@ from height import feet_to_cm, define_goal
 from selenium.common.exceptions import NoSuchElementException
 import time
 import json
+import math
 
 features = []
 labels = []
@@ -48,7 +49,9 @@ while pages_remaining:
             # AGE
             if individual_details[2].text == "--":
                 tempDataSet.append(randint(28, 50))
-            elif individual_details[2].text > 110:
+            elif str(individual_details[2].text) == "NaN":
+                tempDataSet.append(randint(28, 50))
+            elif int(individual_details[2].text) > 110:
                 tempDataSet.append(randint(28, 50))
             else:
                 tempDataSet.append(int(individual_details[2].text))
@@ -81,6 +84,10 @@ while pages_remaining:
 
             # AGE
             if individual_details[2].text == "--":
+                tempDataSet.append(randint(28, 50))
+            elif str(individual_details[2].text) == "NaN":
+                tempDataSet.append(randint(28, 50))
+            elif int(individual_details[2].text) > 110:
                 tempDataSet.append(randint(28, 50))
             else:
                 tempDataSet.append(int(individual_details[2].text))
@@ -135,12 +142,12 @@ while pages_remaining:
 
 thefile = open('data.txt', 'w')
 
-thefile.write(str(len(features)) + " FEATURES")
+thefile.write(str(len(features)) + " FEATURES\n")
 for item in features:
   thefile.write("%s\n" % item)
 
 print("\n")
 
-thefile.write(str(len(labels)) + " LABELS")
+thefile.write(str(len(labels)) + " LABELS\n")
 for item in labels:
   thefile.write("%s\n" % item)
